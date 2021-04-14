@@ -1,2 +1,2 @@
+rootProject.name='Examplr'
 include ':app'
-rootProject.name = "OpenGLCode"
