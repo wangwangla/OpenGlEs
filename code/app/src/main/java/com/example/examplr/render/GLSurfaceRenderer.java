@@ -5,6 +5,7 @@ import android.opengl.GLSurfaceView;
 
 import com.example.examplr.base.BaseExamle;
 import com.example.examplr.shape.A.Triangle;
+import com.example.examplr.shape.A.TriangleMat;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -12,7 +13,7 @@ import javax.microedition.khronos.opengles.GL10;
 public class GLSurfaceRenderer implements GLSurfaceView.Renderer {
     private BaseExamle baseExamle ;
     public GLSurfaceRenderer(Context context){
-        baseExamle = new Triangle(context);
+        baseExamle = new TriangleMat(context);
     }
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
