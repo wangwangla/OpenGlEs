@@ -18,6 +18,7 @@ public abstract class BaseExamle {
     protected float [] model = new float[16];
     protected float [] mView = new float[16];
     protected float [] vMatrix = new float[16];
+    protected int index;
     public BaseExamle(Context context){
         this.context = context;
     }
@@ -40,8 +41,9 @@ public abstract class BaseExamle {
 
     public void surfaceChange(int width, int height) {
         GLES30.glViewport(0,0,width,height);
-        Matrix.frustumM(mProject,0,-1,1,-1,1,4,10);
-        Matrix.setLookAtM(mView,0,0,0,8,0,0,0,0,1,0);
+        Matrix.orthoM(mProject,0,-1,1,-1,1,1,17);
+//        Matrix.frustumM(mProject,0,-1,1,-1,1,1,17);
+        Matrix.setLookAtM(mView,0,0,0,2,0,0,0,0,1,0);
         Matrix.setIdentityM(model,0);
     }
 
