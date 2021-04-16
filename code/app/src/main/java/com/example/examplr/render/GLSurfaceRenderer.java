@@ -8,7 +8,8 @@ import com.example.examplr.base.BaseExamle;
 import com.example.examplr.shape.A.Triangle;
 import com.example.examplr.shape.B.Mult;
 import com.example.examplr.shape.B.Trigl;
-import com.example.examplr.shape.C.TriangleMat;
+import com.example.examplr.shape.D.TriangleMat;
+import com.example.examplr.texture.A.TextureShow;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,7 @@ public class GLSurfaceRenderer implements GLSurfaceView.Renderer {
     private BaseExamle baseExamle ;
 //    private Mult mult;
     public GLSurfaceRenderer(Context context){
-        baseExamle = new TriangleMat(context);
+        baseExamle = new TextureShow(context);
 //        mult = new Mult(context);
     }
 

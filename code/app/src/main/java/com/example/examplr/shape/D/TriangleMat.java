@@ -1,4 +1,4 @@
-package com.example.examplr.shape.C;
+package com.example.examplr.shape.D;
 
 import android.content.Context;
 import android.opengl.GLES30;
@@ -27,8 +27,8 @@ public class TriangleMat extends BaseExamle {
     private int mMatrix;
     public TriangleMat(Context context) {
         super(context);
-        vertexPath = "triangleMatrix/vertex.sh";
-        fragmentPath = "triangleMatrix/frag.sh";
+        vertexPath = "D/vertex.sh";
+        fragmentPath = "D/frag.sh";
     }
 
 

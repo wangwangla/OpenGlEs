@@ -30,6 +30,11 @@ public abstract class BaseExamle {
         );
     }
 
+    public void onCreate(String v,String f){
+        mProgram = ShaderUtil.createProgram(v,f);
+    }
+
+
     protected FloatBuffer buffer(float[]data){
         ByteBuffer bb = ByteBuffer.allocateDirect(data.length * 4);
         bb.order(ByteOrder.nativeOrder());
