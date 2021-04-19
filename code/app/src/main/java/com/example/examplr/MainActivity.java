@@ -10,7 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.examplr.render.GLSurfaceRenderer;
-import com.example.examplr.shape.B.Trigl;
+import com.example.examplr.shape.E.Trigl;
 
 public class MainActivity extends AppCompatActivity {
     private GLSurfaceView glSurfaceView;
