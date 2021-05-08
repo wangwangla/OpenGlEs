@@ -1,16 +1,17 @@
-package com.example.examplr.shape.A;
+package com.example.examplr.shape.B;
 
 import android.content.Context;
 import android.opengl.GLES30;
+import android.opengl.Matrix;
 
 import com.example.examplr.base.BaseExamle;
 
 import java.nio.FloatBuffer;
 
-/**
- * 显示一个三角形
- */
-public class Triangle extends BaseExamle {
+public class Trigl extends BaseExamle {
+    public float xx;
+    public float yAngle;
+    public float xAngle;
     float triangleCoords[] = {
             0.5f,  0.5f, 0.0f, // top
             -0.5f, -0.5f, 0.0f, // bottom left
@@ -26,10 +27,16 @@ public class Triangle extends BaseExamle {
     private FloatBuffer color;
     private int aPosition;
     private int aColor;
-    public Triangle(Context context) {
+    private int mMatrix;
+    public Trigl(Context context,int index) {
         super(context);
-        vertexPath = "triangle/vertex.sh";
-        fragmentPath = "triangle/frag.sh";
+        this.index = index;
+
+        triangleCoords[2] = index*0.1F;
+        triangleCoords[5] = index*0.1F;
+        triangleCoords[8] = index*0.1F;
+        vertexPath = "triangleMatrix/vertex.sh";
+        fragmentPath = "triangleMatrix/frag.sh";
     }
 
 
@@ -40,6 +47,7 @@ public class Triangle extends BaseExamle {
         color = buffer(colors);
         aPosition = attriLocation("aPosition");
         aColor = attriLocation("aColor");
+        mMatrix = uniformLocation("uMVPMatrix");
     }
 
     @Override
@@ -50,10 +58,16 @@ public class Triangle extends BaseExamle {
     @Override
     public void render() {
         super.render();
+        Matrix.setRotateM(model,0,0,0,1,0);
+        //设置沿Z轴正向位移1
+//        Matrix.translateM(model,0,0,0,1);
+        Matrix.rotateM(model,0,-xAngle,1,0,0);
+        Matrix.rotateM(model,0,-yAngle,0,1,0);
+
         //指定使用某套shader程序
         //初始化变换矩阵
         //将变换矩阵传入渲染管线
-//        GLES30.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, Triangle.getFianlMatrix(mMMatrix), 0);
+        GLES30.glUniformMatrix4fv(mMatrix, 1, false, getvMatrix(), 0);
         //将顶点位置数据传送进渲染管线
         GLES30.glVertexAttribPointer(
                 aPosition,
@@ -78,4 +92,10 @@ public class Triangle extends BaseExamle {
         //绘制三角形
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, 3);
     }
+
+    @Override
+    public void surfaceChange(int width, int height) {
+        super.surfaceChange(width, height);
+    }
 }
+

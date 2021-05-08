@@ -2,6 +2,8 @@ package com.example.examplr.base;
 
 import android.content.Context;
 import android.opengl.GLES30;
+import android.opengl.Matrix;
+
 import com.example.examplr.utils.ShaderUtil;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -12,6 +14,11 @@ public abstract class BaseExamle {
     protected String vertexPath;
     protected String fragmentPath;
     protected int mProgram;
+    protected float [] mProject = new float[16];
+    protected float [] model = new float[16];
+    protected float [] mView = new float[16];
+    protected float [] vMatrix = new float[16];
+    protected int index;
     public BaseExamle(Context context){
         this.context = context;
     }
@@ -22,6 +29,11 @@ public abstract class BaseExamle {
                 ShaderUtil.loadFromAssetsFile(fragmentPath,context.getResources())
         );
     }
+
+    public void onCreate(String v,String f){
+        mProgram = ShaderUtil.createProgram(v,f);
+    }
+
 
     protected FloatBuffer buffer(float[]data){
         ByteBuffer bb = ByteBuffer.allocateDirect(data.length * 4);
@@ -34,6 +46,17 @@ public abstract class BaseExamle {
 
     public void surfaceChange(int width, int height) {
         GLES30.glViewport(0,0,width,height);
+        Matrix.orthoM(mProject,0,-1,1,-1,1,1,17);
+//        Matrix.frustumM(mProject,0,-1,1,-1,1,1,17);
+        Matrix.setLookAtM(mView,0,0,0,2,0,0,0,0,1,0);
+        Matrix.setIdentityM(model,0);
+    }
+
+    public float[] getvMatrix() {
+        Matrix.setIdentityM(vMatrix,0);
+        Matrix.multiplyMM(vMatrix,0,mProject,0,mView,0);
+        Matrix.multiplyMM(vMatrix,0,model,0,vMatrix,0);
+        return vMatrix;
     }
 
     public void dispose() {

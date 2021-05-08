@@ -1,20 +1,18 @@
-package com.example.examplr.shape.A;
+package com.example.examplr.shape.C;
 
 import android.content.Context;
 import android.opengl.GLES30;
+import android.opengl.Matrix;
 
 import com.example.examplr.base.BaseExamle;
 
 import java.nio.FloatBuffer;
 
-/**
- * 显示一个三角形
- */
-public class Triangle extends BaseExamle {
+public class TriangleMat extends BaseExamle {
     float triangleCoords[] = {
-            0.5f,  0.5f, 0.0f, // top
-            -0.5f, -0.5f, 0.0f, // bottom left
-            0.5f, -0.5f, 0.0f  // bottom right
+            1f,  1f, 0.0f, // top
+            -1f, -1f, 0.0f, // bottom left
+            1f, -1f, 0.0f  // bottom right
     };
     float colors[]=new float[]//顶点颜色数组
             {
@@ -26,10 +24,11 @@ public class Triangle extends BaseExamle {
     private FloatBuffer color;
     private int aPosition;
     private int aColor;
-    public Triangle(Context context) {
+    private int mMatrix;
+    public TriangleMat(Context context) {
         super(context);
-        vertexPath = "triangle/vertex.sh";
-        fragmentPath = "triangle/frag.sh";
+        vertexPath = "triangleMatrix/vertex.sh";
+        fragmentPath = "triangleMatrix/frag.sh";
     }
 
 
@@ -40,6 +39,7 @@ public class Triangle extends BaseExamle {
         color = buffer(colors);
         aPosition = attriLocation("aPosition");
         aColor = attriLocation("aColor");
+        mMatrix = uniformLocation("uMVPMatrix");
     }
 
     @Override
@@ -53,7 +53,8 @@ public class Triangle extends BaseExamle {
         //指定使用某套shader程序
         //初始化变换矩阵
         //将变换矩阵传入渲染管线
-//        GLES30.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, Triangle.getFianlMatrix(mMMatrix), 0);
+
+        GLES30.glUniformMatrix4fv(mMatrix, 1, false, getvMatrix(), 0);
         //将顶点位置数据传送进渲染管线
         GLES30.glVertexAttribPointer(
                 aPosition,
@@ -78,4 +79,13 @@ public class Triangle extends BaseExamle {
         //绘制三角形
         GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, 3);
     }
+
+    @Override
+    public void surfaceChange(int width, int height) {
+        super.surfaceChange(width, height);
+        Matrix.translateM(model,0,1F,1F,0);
+        Matrix.rotateM(model,0,20,0F,0,1);
+        Matrix.scaleM(model,0,2,1,1);
+    }
 }
+
